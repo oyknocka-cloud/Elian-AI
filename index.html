@@ -93,10 +93,8 @@
 </head>
 <body>
 
-    <!-- Settings Bar -->
     <div id="settings-bar">
         <h3>הגדרות Elian AI</h3>
-        
         <div class="setting-group">
             <label>מצב מסך:</label>
             <select id="theme-select" onchange="changeThemeMode()">
@@ -105,20 +103,17 @@
                 <option value="custom">צבעים מותאמים אישית 🎨</option>
             </select>
         </div>
-
         <div id="custom-colors" style="display: none; flex-direction: column; gap: 10px;">
             <div class="setting-group"><label>צבע רקע:</label><input type="color" id="bg-picker" value="#f4f6f9" oninput="applyCustomColors()"></div>
             <div class="setting-group"><label>צבע פאנלים:</label><input type="color" id="panel-picker" value="#ffffff" oninput="applyCustomColors()"></div>
             <div class="setting-group"><label>צבע טקסט:</label><input type="color" id="text-picker" value="#333333" oninput="applyCustomColors()"></div>
         </div>
-
         <div class="setting-group">
             <label>צבע לחצנים והודעות משתמש:</label>
             <input type="color" id="accent-picker" value="#007bff" oninput="applyCustomColors()">
         </div>
     </div>
 
-    <!-- Chat Interface -->
     <div id="chat-container">
         <div id="chat-window">
             <div class="message ai">שלום! אני Elian AI. איך אני יכול לעזור לך היום?</div>
