@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elian AI</title>
+    <style>
+        :root {
+            --bg-color: #f4f6f9;
+            --panel-color: #ffffff;
+            --text-color: #333333;
+            --accent-color: #007bff;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            transition: all 0.3s ease;
+        }
+        #settings-bar {
+            width: 260px;
+            background-color: var(--panel-color);
+            border-left: 1px solid rgba(0,0,0,0.1);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.05);
+            box-sizing: border-box;
+        }
+        #chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        #chat-window {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .message {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 15px;
+            line-height: 1.5;
+        }
+        .user {
+            background-color: var(--accent-color);
+            color: white;
+            align-self: flex-start;
+        }
+        .ai {
+            background-color: var(--panel-color);
+            align-self: flex-end;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        #input-container {
+            padding: 20px;
+            background-color: var(--panel-color);
+            display: flex;
+            gap: 10px;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+        input[type="text"], input[type="password"] {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 25px;
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-size: 15px;
+            outline: none;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .setting-group { display: flex; flex-direction: column; gap: 5px; }
+        select, input[type="color"] { width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+
+    <!-- Settings Bar -->
+    <div id="settings-bar">
+        <h3>הגדרות Elian AI</h3>
+        
+        <!-- API Key Input directly in browser -->
+        <div class="setting-group">
+            <label for="api-key">מפתח Groq API Key:</label>
+            <input type="password" id="api-key" placeholder="gsk_..." style="border-radius: 6px;">
+        </div>
+
+        <div class="setting-group">
+            <label>מצב מסך:</label>
+            <select id="theme-select" onchange="changeThemeMode()">
+                <option value="light">מצב בהיר</option>
+                <option value="dark">מצב כהה</option>
+                <option value="custom">צבעים מותאמים אישית 🎨</option>
+            </select>
+        </div>
+
+        <div id="custom-colors" style="display: none; flex-direction: column; gap: 10px;">
+            <div class="setting-group"><label>צבע רקע:</label><input type="color" id="bg-picker" value="#f4f6f9" oninput="applyCustomColors()"></div>
+            <div class="setting-group"><label>צבע פאנלים:</label><input type="color" id="panel-picker" value="#ffffff" oninput="applyCustomColors()"></div>
+            <div class="setting-group"><label>צבע טקסט:</label><input type="color" id="text-picker" value="#333333" oninput="applyCustomColors()"></div>
+        </div>
+
+        <div class="setting-group">
+            <label>צבע לחצנים והודעות משתמש:</label>
+            <input type="color" id="accent-picker" value="#007bff" oninput="applyCustomColors()">
+        </div>
+    </div>
+
+    <!-- Chat Interface -->
+    <div id="chat-container">
+        <div id="chat-window">
+            <div class="message ai">שלום! אני Elian AI. איך אני יכול לעזור לך היום?</div>
+        </div>
+        <div id="input-container">
+            <input type="text" id="user-input" placeholder="הקלד הודעה כאן..." onkeypress="if(event.key === 'Enter') sendMessage()">
+            <button onclick="sendMessage()">שלח</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
