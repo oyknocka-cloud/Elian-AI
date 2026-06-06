@@ -68,7 +68,7 @@
             gap: 10px;
             border-top: 1px solid rgba(0,0,0,0.05);
         }
-        input[type="text"], input[type="password"] {
+        input[type="text"] {
             flex: 1;
             padding: 12px;
             border: 1px solid #ccc;
@@ -97,12 +97,6 @@
     <div id="settings-bar">
         <h3>הגדרות Elian AI</h3>
         
-        <!-- API Key Input directly in browser -->
-        <div class="setting-group">
-            <label for="api-key">מפתח Groq API Key:</label>
-            <input type="password" id="api-key" placeholder="gsk_..." style="border-radius: 6px;">
-        </div>
-
         <div class="setting-group">
             <label>מצב מסך:</label>
             <select id="theme-select" onchange="changeThemeMode()">
