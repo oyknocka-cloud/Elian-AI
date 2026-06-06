@@ -13,18 +13,44 @@ async function sendMessage() {
     const loadingDiv = appendMessage('מהרהר...', 'ai');
 
     try {
-        // Calls your secure backend server instead of exposing your key
-        const response = await fetch('/api/chat', {
+        // Fetching the secure header we will inject via Render
+        const configResponse = await fetch(window.location.href, { method: 'HEAD' });
+        const secureKey = configResponse.headers.get('X-Groq-Key');
+
+        if (!secureKey) {
+            loadingDiv.textContent = 'שגיאה: מפתח ה-API לא הוגדר בצורה מאובטחת בשרת.';
+            return;
+        }
+
+        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ messages: conversationHistory })
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${secureKey}`
+            },
+            body: JSON.stringify({
+                model: "llama-3.3-70b-versatile",
+                messages: [
+                    {
+                        role: "system",
+                        content: "Your name is Elian AI. You are a smart AI assistant. The primary language of your interface is Hebrew, but you can talk in any language the user speaks to you."
+                    },
+                    ...conversationHistory
+                ]
+            })
         });
 
         const data = await response.json();
-        loadingDiv.textContent = data.reply;
-        conversationHistory.push({ role: 'assistant', content: data.reply });
+        
+        if (data.choices && data.choices[0]) {
+            const reply = data.choices[0].message.content;
+            loadingDiv.textContent = reply;
+            conversationHistory.push({ role: 'assistant', content: reply });
+        } else {
+            loadingDiv.textContent = 'שגיאה בקבלת תשובה מה-AI.';
+        }
     } catch (error) {
-        loadingDiv.textContent = 'שגיאה: לא מצליח להתחבר לשרת.';
+        loadingDiv.textContent = 'שגיאה בתקשורת הישירה אל Groq.';
         console.error(error);
     }
 }
